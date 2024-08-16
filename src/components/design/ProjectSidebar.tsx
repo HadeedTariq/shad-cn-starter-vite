@@ -20,7 +20,7 @@ const ProjectSidebar = () => {
       {tools.pen && (
         <div
           className={`flex flex-col gap-2 ease-in-out duration-300 border-r-2 ${
-            tools.pen ? "translate-x-0 w-[250px]" : "translate-x-[-200px] w-0"
+            tools.pen ? "translate-x-0 w-[300px]" : "translate-x-[-200px] w-0"
           }`}
           onBlur={() => setTools({ pen: false, text: false, shapes: false })}
         >
@@ -30,7 +30,7 @@ const ProjectSidebar = () => {
       {tools.text && (
         <div
           className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
-            tools.text ? "translate-x-0 w-[250px]" : "translate-x-[-200px] w-0"
+            tools.text ? "translate-x-0 w-[300px]" : "translate-x-[-200px] w-0"
           }`}
         >
           <Text />
@@ -40,7 +40,7 @@ const ProjectSidebar = () => {
         <div
           className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
             tools.shapes
-              ? "translate-x-0 w-[250px]"
+              ? "translate-x-0 w-[300px]"
               : "translate-x-[-200px] w-0"
           }`}
         >
