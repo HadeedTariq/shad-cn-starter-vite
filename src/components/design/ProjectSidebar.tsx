@@ -2,11 +2,13 @@ import { useState } from "react";
 import DrawingSheet from "./DrawingSheet";
 import Pen from "./Pen";
 import Text from "./Text";
+import ShapeHandler from "./ShapeHandler";
 
 const ProjectSidebar = () => {
   const [tools, setTools] = useState({
     pen: false,
     text: false,
+    shapes: false,
   });
   return (
     <div className="flex gap-1 w-fit">
@@ -20,18 +22,29 @@ const ProjectSidebar = () => {
           className={`flex flex-col gap-2 ease-in-out duration-300 border-r-2 ${
             tools.pen ? "translate-x-0 w-[250px]" : "translate-x-[-200px] w-0"
           }`}
-          onBlur={() => setTools({ pen: false, text: false })}
+          onBlur={() => setTools({ pen: false, text: false, shapes: false })}
         >
           <Pen />
         </div>
       )}
       {tools.text && (
         <div
-          className={`flex flex-col gap-2 ease-in-out duration-300 border-r-2 ${
+          className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
             tools.text ? "translate-x-0 w-[250px]" : "translate-x-[-200px] w-0"
           }`}
         >
           <Text />
+        </div>
+      )}
+      {tools.shapes && (
+        <div
+          className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
+            tools.shapes
+              ? "translate-x-0 w-[250px]"
+              : "translate-x-[-200px] w-0"
+          }`}
+        >
+          <ShapeHandler />
         </div>
       )}
     </div>
