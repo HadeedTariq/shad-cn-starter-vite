@@ -1,18 +1,15 @@
 import { useDesign } from "@/hooks/useDesign";
+
 import { useRef, useState } from "react";
-import {
-  Circle,
-  Group,
-  Layer,
-  Rect,
-  Stage,
-  Text,
-  Transformer,
-} from "react-konva";
+import { Layer, Rect, Stage, Text, Transformer } from "react-konva";
+import HeadingEditor from "./components/HeadingEditor";
 
 const ProjectPage = () => {
   const { currentTexts } = useDesign();
-  const [selectedId, setSelectedId] = useState("");
+  const [selectedElem, setSelectedElem] = useState({
+    elemId: "",
+    elemValue: "",
+  });
   const stageRef = useRef<any>(null);
   const transformerRef = useRef<any>(null);
   const onClick = (e: any) => {
@@ -20,8 +17,11 @@ const ProjectPage = () => {
     transformerRef.current.nodes([target]);
   };
 
-  const onDblClick = (id: string) => {
-    setSelectedId(id);
+  const onDblClick = (id: string, value: string) => {
+    setSelectedElem({
+      elemId: id,
+      elemValue: value,
+    });
   };
 
   return (
@@ -44,28 +44,28 @@ const ProjectPage = () => {
               transformerRef.current.nodes([]);
             }}
           />
-          {currentTexts?.map((text) =>
-            selectedId === text.id ? (
-              <textarea
-                key={text.id}
-                value={text.value}
-                className="text-black border-2 border-black bg-white text-lg"
-              />
-            ) : (
-              <Text
-                id={text.id}
-                text={text.value}
-                onDblClick={() => onDblClick(text.id)}
-                onClick={onClick}
-                draggable
-                fontSize={24}
-              />
-            )
-          )}
+          {currentTexts?.map((text) => (
+            <Text
+              key={text.id}
+              id={text.id}
+              text={text.value}
+              onDblClick={() => onDblClick(text.id, text.value)}
+              onClick={onClick}
+              draggable
+              fontSize={24}
+            />
+          ))}
 
           <Transformer ref={transformerRef} />
         </Layer>
       </Stage>
+      {selectedElem.elemId && (
+        <HeadingEditor
+          setSelectedElem={setSelectedElem}
+          textId={selectedElem.elemId}
+          textValue={selectedElem.elemValue}
+        />
+      )}
     </div>
   );
 };
