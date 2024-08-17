@@ -28,11 +28,22 @@ const designReducer = createSlice({
       state,
       { payload }: { payload: { id: string; value: string } }
     ) {
-      const elem = state.currentTexts.find((text) => text.id === payload.id);
-      // elem?.value=payload.value;
+      const currentTexts = [...state.currentTexts];
+      const elem = currentTexts.find((text) => text.id === payload.id);
+      const elemIndex = currentTexts.findIndex(
+        (text) => text.id === payload.id
+      );
+      if (!elem) return;
+      elem.value = payload.value;
+      currentTexts[elemIndex] = elem;
+      state.currentTexts = currentTexts;
     },
   },
 });
 
-export const { setCurrentTextType, updateCurrentTexts } = designReducer.actions;
+export const {
+  setCurrentTextType,
+  updateCurrentTexts,
+  changeSelectedTextValue,
+} = designReducer.actions;
 export default designReducer.reducer;

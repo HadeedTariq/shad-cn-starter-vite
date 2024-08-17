@@ -9,6 +9,9 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Input } from "@/components/ui/input";
+import { changeSelectedTextValue } from "@/reducers/designReducer";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 type HeadingEditorProps = {
   textId: string;
@@ -25,12 +28,26 @@ const HeadingEditor = ({
   textValue,
   setSelectedElem,
 }: HeadingEditorProps) => {
+  const dispatch = useDispatch();
+  const [elemVal, setElemVal] = useState(textValue);
+  const saveElemVal = () => {
+    dispatch(
+      changeSelectedTextValue({
+        id: textId,
+        value: elemVal,
+      })
+    );
+    setSelectedElem({
+      elemId: "",
+      elemValue: "",
+    });
+  };
   return (
     <AlertDialog open>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Change Your heading</AlertDialogTitle>
-          <Input value={textValue} />
+          <Input value={elemVal} onChange={(e) => setElemVal(e.target.value)} />
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel
@@ -43,7 +60,7 @@ const HeadingEditor = ({
           >
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction>Done</AlertDialogAction>
+          <AlertDialogAction onClick={saveElemVal}>Done</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
