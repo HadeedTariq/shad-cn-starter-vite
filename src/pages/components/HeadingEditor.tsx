@@ -46,7 +46,7 @@ const HeadingEditor = ({
     <AlertDialog open>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Change Your heading</AlertDialogTitle>
+          <AlertDialogTitle>Change Your text</AlertDialogTitle>
           <Input value={elemVal} onChange={(e) => setElemVal(e.target.value)} />
         </AlertDialogHeader>
         <AlertDialogFooter>

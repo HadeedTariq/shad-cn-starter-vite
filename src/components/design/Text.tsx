@@ -12,12 +12,27 @@ export default function Text() {
           updateCurrentTexts({
             id: uuid(),
             value,
+            type: "heading",
           })
         );
         break;
       case "sub-heading":
+        dispatch(
+          updateCurrentTexts({
+            id: uuid(),
+            value,
+            type: "sub-heading",
+          })
+        );
         break;
       case "paragraph":
+        dispatch(
+          updateCurrentTexts({
+            id: uuid(),
+            value,
+            type: "paragraph",
+          })
+        );
         break;
     }
   };
@@ -32,10 +47,16 @@ export default function Text() {
       >
         Add a heading
       </Button>
-      <Button className="text-[18px] h-[60px] hover:bg-slate-300 bg-slate-200 text-black font-semibold">
+      <Button
+        className="text-[18px] h-[60px] hover:bg-slate-300 bg-slate-200 text-black font-semibold"
+        onClick={() => createTextBox("sub-heading", "Sub-Heading")}
+      >
         Add a sub heading
       </Button>
-      <Button className="text-[14px] h-[60px] hover:bg-slate-300 bg-slate-200 text-black ">
+      <Button
+        onClick={() => createTextBox("paragraph", "Paragraph")}
+        className="text-[14px] h-[60px] hover:bg-slate-300 bg-slate-200 text-black "
+      >
         Add a paragraph
       </Button>
     </div>

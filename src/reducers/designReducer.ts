@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export type DesignText = {
   id: string;
   value: string;
+  type: string;
 };
 export type DesignState = {
   currentTextType: string;

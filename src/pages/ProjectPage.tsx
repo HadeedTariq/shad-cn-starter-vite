@@ -44,17 +44,45 @@ const ProjectPage = () => {
               transformerRef.current.nodes([]);
             }}
           />
-          {currentTexts?.map((text) => (
-            <Text
-              key={text.id}
-              id={text.id}
-              text={text.value}
-              onDblClick={() => onDblClick(text.id, text.value)}
-              onClick={onClick}
-              draggable
-              fontSize={24}
-            />
-          ))}
+          {currentTexts?.map(
+            (text) =>
+              (text.type === "heading" && (
+                <Text
+                  key={text.id}
+                  id={text.id}
+                  text={text.value}
+                  onDblClick={() => onDblClick(text.id, text.value)}
+                  onClick={onClick}
+                  draggable
+                  fontSize={30}
+                  fontStyle="bold"
+                />
+              )) ||
+              (text.type === "sub-heading" && (
+                <Text
+                  key={text.id}
+                  id={text.id}
+                  text={text.value}
+                  onDblClick={() => onDblClick(text.id, text.value)}
+                  onClick={onClick}
+                  draggable
+                  fontSize={24}
+                  fontStyle="400"
+                />
+              )) ||
+              (text.type === "paragraph" && (
+                <Text
+                  key={text.id}
+                  id={text.id}
+                  text={text.value}
+                  onDblClick={() => onDblClick(text.id, text.value)}
+                  onClick={onClick}
+                  draggable
+                  fontSize={18}
+                  fontStyle="300"
+                />
+              ))
+          )}
 
           <Transformer ref={transformerRef} />
         </Layer>
