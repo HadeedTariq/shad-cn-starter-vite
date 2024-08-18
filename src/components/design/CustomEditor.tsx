@@ -2,6 +2,7 @@ import { useDesign } from "@/hooks/useDesign";
 import {
   changeSelectedTextColor,
   changeSelectedTextPosition,
+  changeSelectedTextWidth,
 } from "@/reducers/designReducer";
 import { AlignCenter, ListStart } from "lucide-react";
 import { useState } from "react";
@@ -33,6 +34,11 @@ const CustomEditor = ({ elemId }: CustomEditorProps) => {
         break;
     }
   };
+  const handleWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(
+      changeSelectedTextWidth({ id: elemId, width: Number(e.target.value) })
+    );
+  };
   return (
     <div className="flex items-center gap-2">
       <input
@@ -51,6 +57,10 @@ const CustomEditor = ({ elemId }: CustomEditorProps) => {
         onClick={() => handlePositionChange("center")}
         className=" hover:text-red-500 transition-colors duration-300"
       />
+      <div className="flex items-center gap-1 mx-2">
+        <p>Width:</p>
+        <input type="range" max={"300"} onChange={handleWidthChange} />
+      </div>
     </div>
   );
 };

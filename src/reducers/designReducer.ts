@@ -72,6 +72,20 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    changeSelectedTextWidth(
+      state,
+      { payload }: { payload: { id: string; width: number } }
+    ) {
+      const currentTexts = [...state.currentTexts];
+      const elem = currentTexts.find((text) => text.id === payload.id);
+      const elemIndex = currentTexts.findIndex(
+        (text) => text.id === payload.id
+      );
+      if (!elem) return;
+      elem.width = payload.width;
+      currentTexts[elemIndex] = elem;
+      state.currentTexts = currentTexts;
+    },
   },
 });
 
@@ -81,5 +95,6 @@ export const {
   changeSelectedTextValue,
   changeSelectedTextColor,
   changeSelectedTextPosition,
+  changeSelectedTextWidth,
 } = designReducer.actions;
 export default designReducer.reducer;
