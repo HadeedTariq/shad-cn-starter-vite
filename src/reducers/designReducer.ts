@@ -8,6 +8,7 @@ export type DesignText = {
   fontSize: number;
   fontStyle: string;
   position: string;
+  width: number;
 };
 export type DesignState = {
   currentTextType: string;
@@ -57,6 +58,20 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    changeSelectedTextPosition(
+      state,
+      { payload }: { payload: { id: string; position: string } }
+    ) {
+      const currentTexts = [...state.currentTexts];
+      const elem = currentTexts.find((text) => text.id === payload.id);
+      const elemIndex = currentTexts.findIndex(
+        (text) => text.id === payload.id
+      );
+      if (!elem) return;
+      elem.position = payload.position;
+      currentTexts[elemIndex] = elem;
+      state.currentTexts = currentTexts;
+    },
   },
 });
 
@@ -65,5 +80,6 @@ export const {
   updateCurrentTexts,
   changeSelectedTextValue,
   changeSelectedTextColor,
+  changeSelectedTextPosition,
 } = designReducer.actions;
 export default designReducer.reducer;

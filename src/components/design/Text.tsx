@@ -16,7 +16,8 @@ export default function Text() {
             color: "black",
             fontSize: 30,
             fontStyle: "bold",
-            position: "start",
+            position: "center",
+            width: 200,
           })
         );
         break;
@@ -29,7 +30,8 @@ export default function Text() {
             color: "black",
             fontSize: 20,
             fontStyle: "400",
-            position: "start",
+            position: "center",
+            width: 170,
           })
         );
         break;
@@ -42,7 +44,8 @@ export default function Text() {
             color: "black",
             fontSize: 14,
             fontStyle: "200",
-            position: "start",
+            position: "center",
+            width: 150,
           })
         );
         break;

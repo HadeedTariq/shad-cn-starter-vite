@@ -56,6 +56,8 @@ const ProjectPage = () => {
               <Text
                 key={text.id}
                 id={text.id}
+                x={200}
+                y={240}
                 text={text.value}
                 onDblClick={() => onDblClick(text.id, text.value)}
                 onClick={(e) => onClick(e, text.id)}
@@ -63,6 +65,9 @@ const ProjectPage = () => {
                 fontSize={text.fontSize}
                 fontStyle={text.fontStyle}
                 fill={text.color}
+                align={text.position}
+                wrap="word"
+                width={text.width}
               />
             ))}
 
