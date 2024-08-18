@@ -4,6 +4,10 @@ export type DesignText = {
   id: string;
   value: string;
   type: string;
+  color: string;
+  fontSize: number;
+  fontStyle: string;
+  position: string;
 };
 export type DesignState = {
   currentTextType: string;
@@ -39,6 +43,20 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    changeSelectedTextColor(
+      state,
+      { payload }: { payload: { id: string; color: string } }
+    ) {
+      const currentTexts = [...state.currentTexts];
+      const elem = currentTexts.find((text) => text.id === payload.id);
+      const elemIndex = currentTexts.findIndex(
+        (text) => text.id === payload.id
+      );
+      if (!elem) return;
+      elem.color = payload.color;
+      currentTexts[elemIndex] = elem;
+      state.currentTexts = currentTexts;
+    },
   },
 });
 
@@ -46,5 +64,6 @@ export const {
   setCurrentTextType,
   updateCurrentTexts,
   changeSelectedTextValue,
+  changeSelectedTextColor,
 } = designReducer.actions;
 export default designReducer.reducer;

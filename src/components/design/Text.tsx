@@ -13,6 +13,10 @@ export default function Text() {
             id: uuid(),
             value,
             type: "heading",
+            color: "black",
+            fontSize: 30,
+            fontStyle: "bold",
+            position: "start",
           })
         );
         break;
@@ -22,6 +26,10 @@ export default function Text() {
             id: uuid(),
             value,
             type: "sub-heading",
+            color: "black",
+            fontSize: 20,
+            fontStyle: "400",
+            position: "start",
           })
         );
         break;
@@ -31,6 +39,10 @@ export default function Text() {
             id: uuid(),
             value,
             type: "paragraph",
+            color: "black",
+            fontSize: 14,
+            fontStyle: "200",
+            position: "start",
           })
         );
         break;
