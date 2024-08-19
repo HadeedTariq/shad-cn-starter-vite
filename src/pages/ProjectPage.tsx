@@ -1,28 +1,27 @@
-import { useDesign } from "@/hooks/useDesign";
-
 import { useRef, useState } from "react";
-import { Layer, Rect, Stage, Text, Transformer } from "react-konva";
+import { Layer, Line, Rect, Stage, Transformer } from "react-konva";
 import HeadingEditor from "./components/HeadingEditor";
 import CustomEditor from "@/components/design/CustomEditor";
+import HeadingHandler from "./components/HeadingHandler";
+import { useDesign } from "@/hooks/useDesign";
 
 const ProjectPage = () => {
-  const { currentTexts } = useDesign();
   const [styleElem, setStyleElem] = useState({
     id: "",
   });
+  const { drawings } = useDesign();
   const [selectedElem, setSelectedElem] = useState({
     elemId: "",
     elemValue: "",
   });
   const stageRef = useRef<any>(null);
   const transformerRef = useRef<any>(null);
-  const onClick = (e: any, elemId: string) => {
+  const onClickHeading = (e: any, elemId: string) => {
     const target = e.currentTarget;
     transformerRef.current.nodes([target]);
     setStyleElem({ id: elemId });
   };
-
-  const onDblClick = (id: string, value: string) => {
+  const onDblClickHeading = (id: string, value: string) => {
     setSelectedElem({
       elemId: id,
       elemValue: value,
@@ -52,25 +51,21 @@ const ProjectPage = () => {
                 setStyleElem({ id: "" });
               }}
             />
-            {currentTexts?.map((text) => (
-              <Text
-                key={text.id}
-                id={text.id}
-                x={200}
-                y={240}
-                text={text.value}
-                onDblClick={() => onDblClick(text.id, text.value)}
-                onClick={(e) => onClick(e, text.id)}
-                draggable
-                fontSize={text.fontSize}
-                fontStyle={text.fontStyle}
-                fill={text.color}
-                align={text.position}
-                wrap="word"
-                width={text.width}
+            <HeadingHandler
+              onClick={(e: any, elemId: string) => onClickHeading(e, elemId)}
+              onDblClick={(id: string, value: string) =>
+                onDblClickHeading(id, value)
+              }
+            />
+            {drawings?.map((drawing) => (
+              <Line
+                key={drawing.id}
+                id={drawing.id}
+                points={drawing.points}
+                stroke={`${drawing.color}`}
+                strokeWidth={drawing.width}
               />
             ))}
-
             <Transformer ref={transformerRef} />
           </Layer>
         </Stage>

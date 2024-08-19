@@ -1,7 +1,11 @@
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
-import { updateCurrentTexts } from "@/reducers/designReducer";
+import {
+  setCurrentDesignType,
+  updateCurrentTexts,
+} from "@/reducers/designReducer";
 import { v4 as uuid } from "uuid";
+import { useEffect } from "react";
 
 export default function Text() {
   const dispatch = useDispatch();
@@ -51,6 +55,9 @@ export default function Text() {
         break;
     }
   };
+  useEffect(() => {
+    dispatch(setCurrentDesignType("text"));
+  }, []);
   return (
     <div className="flex flex-col px-[3px] gap-2">
       <h4 className="font-bold">Text</h4>
