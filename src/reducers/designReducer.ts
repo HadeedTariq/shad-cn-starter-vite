@@ -104,6 +104,11 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    deleteSelectedText(state, { payload }: { payload: string }) {
+      const currentTextsClone = [...state.currentTexts];
+      const newTexts = currentTextsClone.filter((text) => text.id !== payload);
+      state.currentTexts = newTexts;
+    },
     createDrawings(state, { payload }: { payload: DrawingType[] }) {
       state.drawings = payload;
     },
@@ -132,5 +137,6 @@ export const {
   changeSelectedTextWidth,
   createDrawings,
   updateDrawingStyle,
+  deleteSelectedText,
 } = designReducer.actions;
 export default designReducer.reducer;

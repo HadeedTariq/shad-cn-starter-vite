@@ -29,7 +29,7 @@ export default function Pen() {
       />
       <p className="text-lg font-semibold my-1">Stroke Color</p>
       <input
-        className="mx-auto"
+        className="mx-auto w-[40px] h-[40px]"
         type="color"
         color={drawindStyle.color}
         onChange={(e) =>

@@ -3,16 +3,25 @@ import {
   changeSelectedTextColor,
   changeSelectedTextPosition,
   changeSelectedTextWidth,
+  deleteSelectedText,
 } from "@/reducers/designReducer";
-import { AlignCenter, ListStart } from "lucide-react";
-import { useState } from "react";
+import { AlignCenter, ListStart, Trash } from "lucide-react";
+import { forwardRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 type CustomEditorProps = {
   elemId: string;
+  setStyleElem: React.Dispatch<
+    React.SetStateAction<{
+      id: string;
+    }>
+  >;
 };
 
-const CustomEditor = ({ elemId }: CustomEditorProps) => {
+const CustomEditor = (
+  { elemId, setStyleElem }: CustomEditorProps,
+  ref: any
+) => {
   const { currentTexts } = useDesign();
   const dispatch = useDispatch();
   const selectedText = currentTexts.find((text) => text.id === elemId);
@@ -39,6 +48,11 @@ const CustomEditor = ({ elemId }: CustomEditorProps) => {
       changeSelectedTextWidth({ id: elemId, width: Number(e.target.value) })
     );
   };
+  const deleteText = () => {
+    dispatch(deleteSelectedText(elemId));
+    setStyleElem({ id: "" });
+    ref.current.nodes([]);
+  };
   return (
     <div className="flex items-center gap-2">
       <input
@@ -61,8 +75,13 @@ const CustomEditor = ({ elemId }: CustomEditorProps) => {
         <p>Width:</p>
         <input type="range" max={"300"} onChange={handleWidthChange} />
       </div>
+      <Trash
+        cursor={"pointer"}
+        className="w-[20px] h-[20px] text-red-600 hover:text-red-400"
+        onClick={deleteText}
+      />
     </div>
   );
 };
 
-export default CustomEditor;
+export default forwardRef(CustomEditor);

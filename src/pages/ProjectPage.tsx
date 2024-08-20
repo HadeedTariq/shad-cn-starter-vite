@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layer, Line, Rect, Stage, Transformer } from "react-konva";
 import HeadingEditor from "./components/HeadingEditor";
 import CustomEditor from "@/components/design/CustomEditor";
@@ -91,7 +91,13 @@ const ProjectPage = () => {
 
   return (
     <div className="flex flex-col w-full">
-      {styleElem.id && <CustomEditor elemId={styleElem.id} />}
+      {styleElem.id && (
+        <CustomEditor
+          ref={transformerRef}
+          elemId={styleElem.id}
+          setStyleElem={setStyleElem}
+        />
+      )}
       <div className="flex items-center justify-center w-full h-[93vh] bg-gray-200">
         <Stage
           height={window.innerHeight - 100}
