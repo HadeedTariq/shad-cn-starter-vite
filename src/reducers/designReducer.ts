@@ -17,17 +17,25 @@ export type DrawingType = {
   points: number[];
 };
 
-export type DesignType = "text" | "drawing" | "shapes";
+export type DesignType = "text" | "drawing" | "shapes" | "select";
 export type DesignState = {
   currentDesignType: DesignType;
   currentTexts: DesignText[];
   drawings: DrawingType[];
+  drawindStyle: {
+    color: string;
+    width: number;
+  };
 };
 
 const initialState: DesignState = {
   currentDesignType: "text",
   currentTexts: [],
   drawings: [],
+  drawindStyle: {
+    color: "black",
+    width: 2,
+  },
 };
 
 const designReducer = createSlice({
@@ -96,6 +104,22 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    createDrawings(state, { payload }: { payload: DrawingType[] }) {
+      state.drawings = payload;
+    },
+    updateDrawingStyle(
+      state,
+      { payload }: { payload: { styleName: string; value: string | number } }
+    ) {
+      switch (payload.styleName) {
+        case "color":
+          state.drawindStyle.color = payload.value as string;
+          break;
+        case "width":
+          state.drawindStyle.width = payload.value as number;
+          break;
+      }
+    },
   },
 });
 
@@ -106,5 +130,7 @@ export const {
   changeSelectedTextColor,
   changeSelectedTextPosition,
   changeSelectedTextWidth,
+  createDrawings,
+  updateDrawingStyle,
 } = designReducer.actions;
 export default designReducer.reducer;

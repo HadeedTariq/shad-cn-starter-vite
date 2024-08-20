@@ -1,15 +1,14 @@
-import { setCurrentDesignType } from "@/reducers/designReducer";
-import { useEffect, useState } from "react";
+import { useDesign } from "@/hooks/useDesign";
+import {
+  setCurrentDesignType,
+  updateDrawingStyle,
+} from "@/reducers/designReducer";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function Pen() {
-  const [color, setColor] = useState("#aabbcc");
-  const [value, setValue] = useState(2);
+  const { drawindStyle } = useDesign();
   const dispatch = useDispatch();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(e.target.value));
-  };
   useEffect(() => {
     dispatch(setCurrentDesignType("drawing"));
   }, []);
@@ -20,16 +19,24 @@ export default function Pen() {
         type="range"
         min="0"
         max="10"
-        value={value}
-        onChange={handleChange}
+        value={drawindStyle.width}
+        onChange={(e) =>
+          dispatch(
+            updateDrawingStyle({ styleName: "width", value: e.target.value })
+          )
+        }
         className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <p className="text-lg font-semibold my-1">Stroke Color</p>
       <input
         className="mx-auto"
         type="color"
-        color={color}
-        onChange={(e) => setColor(e.target.value)}
+        color={drawindStyle.color}
+        onChange={(e) =>
+          dispatch(
+            updateDrawingStyle({ styleName: "color", value: e.target.value })
+          )
+        }
       />
     </div>
   );
