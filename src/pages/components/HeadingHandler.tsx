@@ -6,7 +6,7 @@ type HeadingHandlerProps = {
   onDblClick: (id: string, value: string) => void;
 };
 const HeadingHandler = ({ onClick, onDblClick }: HeadingHandlerProps) => {
-  const { currentTexts } = useDesign();
+  const { currentTexts, currentDesignType } = useDesign();
 
   return (
     <>
@@ -19,7 +19,7 @@ const HeadingHandler = ({ onClick, onDblClick }: HeadingHandlerProps) => {
           text={text.value}
           onDblClick={() => onDblClick(text.id, text.value)}
           onClick={(e) => onClick(e, text.id)}
-          draggable
+          draggable={currentDesignType === "select"}
           fontSize={text.fontSize}
           fontStyle={text.fontStyle}
           fill={text.color}

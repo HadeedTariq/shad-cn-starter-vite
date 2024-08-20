@@ -57,6 +57,9 @@ export default function Text() {
   };
   useEffect(() => {
     dispatch(setCurrentDesignType("text"));
+    return () => {
+      dispatch(setCurrentDesignType("select"));
+    };
   }, []);
   return (
     <div className="flex flex-col px-[3px] gap-2">

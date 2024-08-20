@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Layer, Line, Rect, Stage, Transformer } from "react-konva";
 import HeadingEditor from "./components/HeadingEditor";
-import CustomEditor from "@/components/design/CustomEditor";
 import HeadingHandler from "./components/HeadingHandler";
 import { useDesign } from "@/hooks/useDesign";
-import { KonvaEventObject } from "konva/lib/Node";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { createDrawings, setCurrentDesignType } from "@/reducers/designReducer";
+import CustomHeadingEditor from "@/components/design/CustomHeadingEditor";
+import CustomDrawingEditor from "@/components/design/CustomDrawingEditor";
 
 const ProjectPage = () => {
   const dispatch = useDispatch();
   const [styleElem, setStyleElem] = useState({
     id: "",
+    type: "",
   });
   const { drawings, currentDesignType, drawindStyle } = useDesign();
   const [selectedElem, setSelectedElem] = useState({
@@ -26,7 +27,7 @@ const ProjectPage = () => {
   const onClickHeading = (e: any, elemId: string) => {
     const target = e.currentTarget;
     transformerRef.current.nodes([target]);
-    setStyleElem({ id: elemId });
+    setStyleElem({ id: elemId, type: "heading" });
   };
   const onDblClickHeading = (id: string, value: string) => {
     setSelectedElem({
@@ -34,7 +35,7 @@ const ProjectPage = () => {
       elemValue: value,
     });
   };
-  const onPointerDown = (e: KonvaEventObject<PointerEvent>) => {
+  const onPointerDown = () => {
     if (currentDesignType === "drawing" || currentDesignType === "shapes") {
       const stage = stageRef.current;
       const { x, y } = stage.getPointerPosition();
@@ -60,7 +61,7 @@ const ProjectPage = () => {
       return;
     }
   };
-  const onPointerMove = (e: KonvaEventObject<PointerEvent>) => {
+  const onPointerMove = () => {
     if (!isPainting.current) return;
     const stage = stageRef.current;
     const { x, y } = stage.getPointerPosition();
@@ -87,17 +88,30 @@ const ProjectPage = () => {
     const target = e.currentTarget;
     transformerRef.current.nodes([target]);
     dispatch(setCurrentDesignType("select"));
+    setStyleElem({
+      id: drawingId,
+      type: "drawing",
+    });
   };
+  console.log(styleElem.type);
 
   return (
     <div className="flex flex-col w-full">
-      {styleElem.id && (
-        <CustomEditor
-          ref={transformerRef}
-          elemId={styleElem.id}
-          setStyleElem={setStyleElem}
-        />
-      )}
+      {styleElem.id &&
+        ((styleElem.type === "heading" && (
+          <CustomHeadingEditor
+            ref={transformerRef}
+            elemId={styleElem.id}
+            setStyleElem={setStyleElem}
+          />
+        )) ||
+          (styleElem.type === "drawing" && (
+            <CustomDrawingEditor
+              elemId={styleElem.id}
+              setStyleElem={setStyleElem}
+              ref={transformerRef}
+            />
+          )))}
       <div className="flex items-center justify-center w-full h-[93vh] bg-gray-200">
         <Stage
           height={window.innerHeight - 100}
@@ -121,7 +135,7 @@ const ProjectPage = () => {
               id="bg"
               onClick={() => {
                 transformerRef.current.nodes([]);
-                setStyleElem({ id: "" });
+                setStyleElem({ id: "", type: "" });
               }}
             />
             <HeadingHandler

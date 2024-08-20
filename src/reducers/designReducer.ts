@@ -104,6 +104,34 @@ const designReducer = createSlice({
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },
+    changeSelectedDrawingWidth(
+      state,
+      { payload }: { payload: { id: string; width: number } }
+    ) {
+      const drawings = [...state.drawings];
+      const elem = drawings.find((drawing) => drawing.id === payload.id);
+      const elemIndex = drawings.findIndex(
+        (drawing) => drawing.id === payload.id
+      );
+      if (!elem) return;
+      elem.width = payload.width;
+      drawings[elemIndex] = elem;
+      state.drawings = drawings;
+    },
+    changeSelectedDrawingColor(
+      state,
+      { payload }: { payload: { id: string; color: string } }
+    ) {
+      const drawings = [...state.drawings];
+      const elem = drawings.find((drawing) => drawing.id === payload.id);
+      const elemIndex = drawings.findIndex(
+        (drawing) => drawing.id === payload.id
+      );
+      if (!elem) return;
+      elem.color = payload.color;
+      drawings[elemIndex] = elem;
+      state.drawings = drawings;
+    },
     deleteSelectedText(state, { payload }: { payload: string }) {
       const currentTextsClone = [...state.currentTexts];
       const newTexts = currentTextsClone.filter((text) => text.id !== payload);
@@ -125,6 +153,13 @@ const designReducer = createSlice({
           break;
       }
     },
+    deleteSelectedDrawing(state, { payload }: { payload: string }) {
+      const drawingsClone = [...state.drawings];
+      const newDrawings = drawingsClone.filter(
+        (drawing) => drawing.id !== payload
+      );
+      state.drawings = newDrawings;
+    },
   },
 });
 
@@ -138,5 +173,8 @@ export const {
   createDrawings,
   updateDrawingStyle,
   deleteSelectedText,
+  changeSelectedDrawingWidth,
+  changeSelectedDrawingColor,
+  deleteSelectedDrawing,
 } = designReducer.actions;
 export default designReducer.reducer;

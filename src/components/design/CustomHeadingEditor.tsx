@@ -14,11 +14,12 @@ type CustomEditorProps = {
   setStyleElem: React.Dispatch<
     React.SetStateAction<{
       id: string;
+      type: string;
     }>
   >;
 };
 
-const CustomEditor = (
+const CustomHeadingEditor = (
   { elemId, setStyleElem }: CustomEditorProps,
   ref: any
 ) => {
@@ -50,7 +51,7 @@ const CustomEditor = (
   };
   const deleteText = () => {
     dispatch(deleteSelectedText(elemId));
-    setStyleElem({ id: "" });
+    setStyleElem({ id: "", type: "" });
     ref.current.nodes([]);
   };
   return (
@@ -84,4 +85,4 @@ const CustomEditor = (
   );
 };
 
-export default forwardRef(CustomEditor);
+export default forwardRef(CustomHeadingEditor);
