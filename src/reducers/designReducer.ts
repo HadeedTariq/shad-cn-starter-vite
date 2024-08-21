@@ -116,19 +116,19 @@ const designReducer = createSlice({
       state,
       { payload }: { payload: { type: "undo" | "redo"; id: string } }
     ) {
+      const currentTextsClone = [...state.currentTexts];
+      const changeTextClones = [...state.changeTexts];
+      const changeText = changeTextClones.find((t) => t.id === payload.id);
+      // const changeTextIndex = changeTextClones.findIndex((t) => t.id === payload.id);
+      const currentText = currentTextsClone.find(
+        (text) => text.id === payload.id
+      );
+      const currentTextIndex = currentTextsClone.findIndex(
+        (text) => text.id === payload.id
+      );
+      if (!currentText || !changeText) return;
       switch (payload.type) {
         case "undo":
-          const currentTextsClone = [...state.currentTexts];
-          const changeTextClones = [...state.changeTexts];
-          const changeText = changeTextClones.find((t) => t.id === payload.id);
-          // const changeTextIndex = changeTextClones.findIndex((t) => t.id === payload.id);
-          const currentText = currentTextsClone.find(
-            (text) => text.id === payload.id
-          );
-          const currentTextIndex = currentTextsClone.findIndex(
-            (text) => text.id === payload.id
-          );
-          if (!currentText || !changeText) return;
           currentText.value =
             changeText.texts[state.currentUndoRedoTextIndex - 1];
           state.currentUndoRedoTextIndex = state.currentUndoRedoTextIndex - 1;
@@ -136,6 +136,11 @@ const designReducer = createSlice({
           state.currentTexts = currentTextsClone;
           break;
         case "redo":
+          currentText.value =
+            changeText.texts[state.currentUndoRedoTextIndex + 1];
+          state.currentUndoRedoTextIndex = state.currentUndoRedoTextIndex + 1;
+          currentTextsClone[currentTextIndex] = currentText;
+          state.currentTexts = currentTextsClone;
           break;
       }
     },
