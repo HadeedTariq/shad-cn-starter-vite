@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Input } from "@/components/ui/input";
-import { changeSelectedTextValue } from "@/reducers/designReducer";
+import {
+  changeSelectedTextValue,
+  updateCurrentSelectedTextInChangeText,
+} from "@/reducers/designReducer";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -33,6 +36,12 @@ const HeadingEditor = ({
   const saveElemVal = () => {
     dispatch(
       changeSelectedTextValue({
+        id: textId,
+        value: elemVal,
+      })
+    );
+    dispatch(
+      updateCurrentSelectedTextInChangeText({
         id: textId,
         value: elemVal,
       })

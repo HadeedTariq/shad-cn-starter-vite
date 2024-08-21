@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import {
   setCurrentDesignType,
   updateCurrentTexts,
+  updateTextRecord,
 } from "@/reducers/designReducer";
 import { v4 as uuid } from "uuid";
 import { useEffect } from "react";
@@ -12,9 +13,10 @@ export default function Text() {
   const createTextBox = (type: string, value: string) => {
     switch (type) {
       case "heading":
+        const id = uuid();
         dispatch(
           updateCurrentTexts({
-            id: uuid(),
+            id,
             value,
             type: "heading",
             color: "black",
@@ -22,6 +24,12 @@ export default function Text() {
             fontStyle: "bold",
             position: "center",
             width: 200,
+          })
+        );
+        dispatch(
+          updateTextRecord({
+            id,
+            texts: [value],
           })
         );
         break;

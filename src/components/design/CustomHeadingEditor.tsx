@@ -4,10 +4,12 @@ import {
   changeSelectedTextPosition,
   changeSelectedTextWidth,
   deleteSelectedText,
+  undoRedoText,
 } from "@/reducers/designReducer";
-import { AlignCenter, ListStart, Trash } from "lucide-react";
+import { AlignCenter, ListStart, Redo2, Trash, Undo2 } from "lucide-react";
 import { forwardRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Button } from "../ui/button";
 
 type CustomEditorProps = {
   elemId: string;
@@ -23,10 +25,13 @@ const CustomHeadingEditor = (
   { elemId, setStyleElem }: CustomEditorProps,
   ref: any
 ) => {
-  const { currentTexts } = useDesign();
+  const { currentTexts, changeTexts, currentUndoRedoTextIndex } = useDesign();
+  const currentUndoRedoText = changeTexts.find((text) => text.id === elemId);
+
   const dispatch = useDispatch();
   const selectedText = currentTexts.find((text) => text.id === elemId);
-  if (!selectedText) return;
+  if (!selectedText || !currentUndoRedoText) return;
+
   const [color, setColor] = useState(selectedText.color);
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColor(e.target.value);
@@ -81,6 +86,30 @@ const CustomHeadingEditor = (
         className="w-[20px] h-[20px] text-red-600 hover:text-red-400"
         onClick={deleteText}
       />
+      <div className="flex items-center gap-2">
+        <Button
+          disabled={
+            currentUndoRedoText?.texts.length < 2 ||
+            currentUndoRedoTextIndex === 0
+          }
+          onClick={() => dispatch(undoRedoText({ type: "undo", id: elemId }))}
+          className="bg-none disabled:cursor-not-allowed"
+          variant={"outline"}
+        >
+          <Undo2 className="cursor-pointer  hover:text-violet-500 transition-colors duration-500 " />
+        </Button>
+        <Button
+          disabled={
+            currentUndoRedoText?.texts.length < 2 ||
+            currentUndoRedoTextIndex === currentUndoRedoText.texts.length - 1
+          }
+          onClick={() => dispatch(undoRedoText({ type: "redo", id: elemId }))}
+          className="bg-none disabled:cursor-not-allowed"
+          variant={"outline"}
+        >
+          <Redo2 className="cursor-pointer  hover:text-violet-500 transition-colors duration-500 " />
+        </Button>
+      </div>
     </div>
   );
 };

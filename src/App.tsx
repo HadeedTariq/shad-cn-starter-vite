@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProjectPage from "./pages/ProjectPage";
 import ProjectNavbar from "./components/design/ProjectNavbar";

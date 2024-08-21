@@ -93,7 +93,6 @@ const ProjectPage = () => {
       type: "drawing",
     });
   };
-  console.log(styleElem.type);
 
   return (
     <div className="flex flex-col w-full">

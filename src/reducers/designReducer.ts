@@ -16,6 +16,10 @@ export type DrawingType = {
   id: string;
   points: number[];
 };
+export type UndoRedoTextType = {
+  id: string;
+  texts: string[];
+};
 
 export type DesignType = "text" | "drawing" | "shapes" | "select";
 export type DesignState = {
@@ -26,16 +30,20 @@ export type DesignState = {
     color: string;
     width: number;
   };
+  changeTexts: UndoRedoTextType[];
+  currentUndoRedoTextIndex: number;
 };
 
 const initialState: DesignState = {
   currentDesignType: "text",
   currentTexts: [],
   drawings: [],
+  changeTexts: [],
   drawindStyle: {
     color: "black",
     width: 2,
   },
+  currentUndoRedoTextIndex: 0,
 };
 
 const designReducer = createSlice({
@@ -103,6 +111,49 @@ const designReducer = createSlice({
       elem.width = payload.width;
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
+    },
+    undoRedoText(
+      state,
+      { payload }: { payload: { type: "undo" | "redo"; id: string } }
+    ) {
+      switch (payload.type) {
+        case "undo":
+          const currentTextsClone = [...state.currentTexts];
+          const changeTextClones = [...state.changeTexts];
+          const changeText = changeTextClones.find((t) => t.id === payload.id);
+          // const changeTextIndex = changeTextClones.findIndex((t) => t.id === payload.id);
+          const currentText = currentTextsClone.find(
+            (text) => text.id === payload.id
+          );
+          const currentTextIndex = currentTextsClone.findIndex(
+            (text) => text.id === payload.id
+          );
+          if (!currentText || !changeText) return;
+          currentText.value =
+            changeText.texts[state.currentUndoRedoTextIndex - 1];
+          state.currentUndoRedoTextIndex = state.currentUndoRedoTextIndex - 1;
+          currentTextsClone[currentTextIndex] = currentText;
+          state.currentTexts = currentTextsClone;
+          break;
+        case "redo":
+          break;
+      }
+    },
+    updateTextRecord(state, { payload }: { payload: UndoRedoTextType }) {
+      state.changeTexts.push(payload);
+    },
+    updateCurrentSelectedTextInChangeText(
+      state,
+      { payload }: { payload: { id: string; value: string } }
+    ) {
+      const changeTextClones = [...state.changeTexts];
+      const text = changeTextClones.find((t) => t.id === payload.id);
+      const textIndex = changeTextClones.findIndex((t) => t.id === payload.id);
+      if (!text) return;
+      text.texts.push(payload.value);
+      state.currentUndoRedoTextIndex = text.texts.length - 1;
+      changeTextClones[textIndex] = text;
+      state.changeTexts = changeTextClones;
     },
     changeSelectedDrawingWidth(
       state,
@@ -176,5 +227,8 @@ export const {
   changeSelectedDrawingWidth,
   changeSelectedDrawingColor,
   deleteSelectedDrawing,
+  undoRedoText,
+  updateTextRecord,
+  updateCurrentSelectedTextInChangeText,
 } = designReducer.actions;
 export default designReducer.reducer;
