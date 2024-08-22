@@ -20,6 +20,10 @@ export type UndoRedoTextType = {
   id: string;
   texts: string[];
 };
+export type UndoRedoType = {
+  id: string;
+  texts: string[];
+};
 
 export type DesignType = "text" | "drawing" | "shapes" | "select";
 export type DesignState = {
@@ -32,18 +36,22 @@ export type DesignState = {
   };
   changeTexts: UndoRedoTextType[];
   currentUndoRedoTextIndex: number;
+  currentUndoRedoDrawingIndex: number;
+  drawingClone: DrawingType[];
 };
 
 const initialState: DesignState = {
   currentDesignType: "text",
   currentTexts: [],
   drawings: [],
+  drawingClone: [],
   changeTexts: [],
   drawindStyle: {
     color: "black",
     width: 2,
   },
   currentUndoRedoTextIndex: 0,
+  currentUndoRedoDrawingIndex: 0,
 };
 
 const designReducer = createSlice({
@@ -144,6 +152,21 @@ const designReducer = createSlice({
           break;
       }
     },
+    undoRedoDrawing(
+      state,
+      { payload }: { payload: { type: "undo" | "redo"; id: string } }
+    ) {
+      switch (payload.type) {
+        case "undo":
+          const drawings = state.drawingClone.filter(
+            (drawing) => drawing.id !== payload.id
+          );
+          state.drawings = drawings;
+          break;
+        case "redo":
+          break;
+      }
+    },
     updateTextRecord(state, { payload }: { payload: UndoRedoTextType }) {
       state.changeTexts.push(payload);
     },
@@ -195,6 +218,8 @@ const designReducer = createSlice({
     },
     createDrawings(state, { payload }: { payload: DrawingType[] }) {
       state.drawings = payload;
+      state.drawingClone = payload;
+      state.currentUndoRedoDrawingIndex += 1;
     },
     updateDrawingStyle(
       state,
@@ -214,7 +239,14 @@ const designReducer = createSlice({
       const newDrawings = drawingsClone.filter(
         (drawing) => drawing.id !== payload
       );
+      const newDrawingsClone = state.drawingClone.filter(
+        (drawing) => drawing.id !== payload
+      );
       state.drawings = newDrawings;
+      state.drawingClone = newDrawingsClone;
+      if (state.currentUndoRedoDrawingIndex !== 0) {
+        state.currentUndoRedoDrawingIndex -= 1;
+      }
     },
   },
 });
@@ -226,14 +258,15 @@ export const {
   changeSelectedTextColor,
   changeSelectedTextPosition,
   changeSelectedTextWidth,
-  createDrawings,
-  updateDrawingStyle,
   deleteSelectedText,
-  changeSelectedDrawingWidth,
-  changeSelectedDrawingColor,
-  deleteSelectedDrawing,
   undoRedoText,
   updateTextRecord,
   updateCurrentSelectedTextInChangeText,
+  createDrawings,
+  updateDrawingStyle,
+  changeSelectedDrawingWidth,
+  changeSelectedDrawingColor,
+  deleteSelectedDrawing,
+  undoRedoDrawing,
 } = designReducer.actions;
 export default designReducer.reducer;

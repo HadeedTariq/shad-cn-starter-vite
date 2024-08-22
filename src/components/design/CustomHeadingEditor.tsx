@@ -89,7 +89,7 @@ const CustomHeadingEditor = (
       <div className="flex items-center gap-2">
         <Button
           disabled={
-            currentUndoRedoText?.texts.length < 2 ||
+            currentUndoRedoText.texts.length < 2 ||
             currentUndoRedoTextIndex === 0
           }
           onClick={() => dispatch(undoRedoText({ type: "undo", id: elemId }))}
@@ -100,7 +100,7 @@ const CustomHeadingEditor = (
         </Button>
         <Button
           disabled={
-            currentUndoRedoText?.texts.length < 2 ||
+            currentUndoRedoText.texts.length < 2 ||
             currentUndoRedoTextIndex === currentUndoRedoText.texts.length - 1
           }
           onClick={() => dispatch(undoRedoText({ type: "redo", id: elemId }))}
