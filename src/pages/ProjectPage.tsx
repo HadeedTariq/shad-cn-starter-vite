@@ -5,7 +5,11 @@ import HeadingHandler from "./components/HeadingHandler";
 import { useDesign } from "@/hooks/useDesign";
 import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
-import { createDrawings, setCurrentDesignType } from "@/reducers/designReducer";
+import {
+  createDrawings,
+  increaseDrawingUndoRedoIndex,
+  setCurrentDesignType,
+} from "@/reducers/designReducer";
 import CustomHeadingEditor from "@/components/design/CustomHeadingEditor";
 import CustomDrawingEditor from "@/components/design/CustomDrawingEditor";
 
@@ -55,6 +59,7 @@ const ProjectPage = () => {
               },
             ])
           );
+          dispatch(increaseDrawingUndoRedoIndex());
           break;
       }
     } else {

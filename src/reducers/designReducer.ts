@@ -37,14 +37,14 @@ export type DesignState = {
   changeTexts: UndoRedoTextType[];
   currentUndoRedoTextIndex: number;
   currentUndoRedoDrawingIndex: number;
-  drawingClone: DrawingType[];
+  undoDrawingArray: DrawingType[];
 };
 
 const initialState: DesignState = {
   currentDesignType: "text",
   currentTexts: [],
   drawings: [],
-  drawingClone: [],
+  undoDrawingArray: [],
   changeTexts: [],
   drawindStyle: {
     color: "black",
@@ -154,14 +154,16 @@ const designReducer = createSlice({
     },
     undoRedoDrawing(
       state,
-      { payload }: { payload: { type: "undo" | "redo"; id: string } }
+      { payload }: { payload: { type: "undo" | "redo" } }
     ) {
       switch (payload.type) {
         case "undo":
-          const drawings = state.drawingClone.filter(
-            (drawing) => drawing.id !== payload.id
-          );
-          state.drawings = drawings;
+          const drawingsClone = [...state.drawings];
+          const drawing = drawingsClone[drawingsClone.length - 1];
+          state.undoDrawingArray.push(drawing);
+          const newDrawings = drawingsClone.filter((d) => d.id !== drawing.id);
+          state.drawings = newDrawings;
+          // state.currentUndoRedoDrawingIndex -= 1;
           break;
         case "redo":
           break;
@@ -216,10 +218,11 @@ const designReducer = createSlice({
       const newTexts = currentTextsClone.filter((text) => text.id !== payload);
       state.currentTexts = newTexts;
     },
+    increaseDrawingUndoRedoIndex(state) {
+      state.currentUndoRedoDrawingIndex += 1;
+    },
     createDrawings(state, { payload }: { payload: DrawingType[] }) {
       state.drawings = payload;
-      state.drawingClone = payload;
-      state.currentUndoRedoDrawingIndex += 1;
     },
     updateDrawingStyle(
       state,
@@ -239,11 +242,7 @@ const designReducer = createSlice({
       const newDrawings = drawingsClone.filter(
         (drawing) => drawing.id !== payload
       );
-      const newDrawingsClone = state.drawingClone.filter(
-        (drawing) => drawing.id !== payload
-      );
       state.drawings = newDrawings;
-      state.drawingClone = newDrawingsClone;
       if (state.currentUndoRedoDrawingIndex !== 0) {
         state.currentUndoRedoDrawingIndex -= 1;
       }
@@ -268,5 +267,6 @@ export const {
   changeSelectedDrawingColor,
   deleteSelectedDrawing,
   undoRedoDrawing,
+  increaseDrawingUndoRedoIndex,
 } = designReducer.actions;
 export default designReducer.reducer;

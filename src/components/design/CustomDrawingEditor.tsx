@@ -3,12 +3,10 @@ import {
   changeSelectedDrawingColor,
   changeSelectedDrawingWidth,
   deleteSelectedDrawing,
-  undoRedoDrawing,
 } from "@/reducers/designReducer";
-import { Redo2, Trash, Undo2 } from "lucide-react";
+import { Trash } from "lucide-react";
 import { forwardRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "../ui/button";
 
 type CustomEditorProps = {
   elemId: string;
@@ -24,7 +22,7 @@ const CustomDrawingEditor = (
   { elemId, setStyleElem }: CustomEditorProps,
   ref: any
 ) => {
-  const { drawings, currentUndoRedoDrawingIndex } = useDesign();
+  const { drawings } = useDesign();
   const dispatch = useDispatch();
   const selecteDrawing = drawings.find((drawing) => drawing.id === elemId);
   if (!selecteDrawing) return;
@@ -43,7 +41,6 @@ const CustomDrawingEditor = (
     setStyleElem({ id: "", type: "" });
     ref.current.nodes([]);
   };
-  console.log(drawings);
 
   return (
     <div className="flex items-center gap-2">
@@ -62,31 +59,6 @@ const CustomDrawingEditor = (
         className="w-[20px] h-[20px] text-red-600 hover:text-red-400"
         onClick={deleteText}
       />
-      <div className="flex items-center gap-2">
-        <Button
-          disabled={drawings.length < 2 || currentUndoRedoDrawingIndex === 0}
-          onClick={() =>
-            dispatch(undoRedoDrawing({ type: "undo", id: elemId }))
-          }
-          className="bg-none disabled:cursor-not-allowed"
-          variant={"outline"}
-        >
-          <Undo2 className="cursor-pointer  hover:text-violet-500 transition-colors duration-500 " />
-        </Button>
-        <Button
-          disabled={
-            drawings.length < 2 ||
-            currentUndoRedoDrawingIndex === drawings.length - 1
-          }
-          onClick={() =>
-            dispatch(undoRedoDrawing({ type: "redo", id: elemId }))
-          }
-          className="bg-none disabled:cursor-not-allowed"
-          variant={"outline"}
-        >
-          <Redo2 className="cursor-pointer  hover:text-violet-500 transition-colors duration-500 " />
-        </Button>
-      </div>
     </div>
   );
 };
