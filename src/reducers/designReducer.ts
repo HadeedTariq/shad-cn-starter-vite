@@ -163,9 +163,15 @@ const designReducer = createSlice({
           state.undoDrawingArray.push(drawing);
           const newDrawings = drawingsClone.filter((d) => d.id !== drawing.id);
           state.drawings = newDrawings;
-          // state.currentUndoRedoDrawingIndex -= 1;
+          if (newDrawings.length === 0) {
+            state.currentUndoRedoDrawingIndex = 0;
+          }
           break;
         case "redo":
+          const lastDrawing = state.undoDrawingArray.pop();
+          if (lastDrawing) {
+            state.drawings.push(lastDrawing);
+          }
           break;
       }
     },
