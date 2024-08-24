@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
+import { v4 as uuid } from "uuid";
+import { useEffect } from "react";
 import {
   setCurrentDesignType,
   updateCurrentTexts,
   updateTextRecord,
 } from "@/reducers/designReducer";
-import { v4 as uuid } from "uuid";
-import { useEffect } from "react";
 
 export default function Text() {
   const dispatch = useDispatch();

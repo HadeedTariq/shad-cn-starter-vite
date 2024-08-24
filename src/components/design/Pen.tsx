@@ -1,16 +1,17 @@
 import { useDesign } from "@/hooks/useDesign";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Button } from "../ui/button";
+import { Undo2, Redo2 } from "lucide-react";
 import {
   setCurrentDesignType,
   undoRedoDrawing,
   updateDrawingStyle,
 } from "@/reducers/designReducer";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Button } from "../ui/button";
-import { Undo2, Redo2 } from "lucide-react";
 
 export default function Pen() {
   const { drawindStyle, drawings, currentUndoRedoDrawingIndex } = useDesign();
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setCurrentDesignType("drawing"));
