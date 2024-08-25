@@ -5,7 +5,8 @@
 =>Create undo and redo functionality Text
 =>Create undo and redo functionality Drawing
 =>Change font of selected text
-=>Create Shapes In Canvas Card
+=>Create Card In Canvas
+=>Create Shapes In Canvas 
 
 <!-- ! Implementation -->
 ->For creating headings in canvas we push heading according to it's type and id into the current canvas heading array for editing the text we double click on it.Elem id and Elem Text goes into editable text component and when user update the text and click on save button we will change the text globally
@@ -14,3 +15,4 @@
 ->For creating undo redo functionlity for drawing we need to maintain the drawing in other array and need to maintain a currentUndoRedoIndex So that when the index is zero the undo is disabled and whe index is lastIndex redo is disabled
 so if we go to combine reducer then all the reducer are combine in designReducer then how does it work
 ->Whenever user select a text it's id is stored in the selectedTextId and when user click on font from side bar selectedTextId font will be changed to clicked font
+->For creating card in canvas we create some default cards with background and editable texts and whenever user select the card we will set the card in canvas using width and height of canvas 
