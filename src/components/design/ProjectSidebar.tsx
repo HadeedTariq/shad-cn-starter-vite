@@ -3,12 +3,14 @@ import DrawingSheet from "./DrawingSheet";
 import Pen from "./Pen";
 import Text from "./Text";
 import ShapeHandler from "./ShapeHandler";
+import FontsHandler from "./FontsHandler";
 
 const ProjectSidebar = () => {
   const [tools, setTools] = useState({
     pen: false,
     text: false,
     shapes: false,
+    fonts: false,
   });
   return (
     <div className="flex gap-1 w-fit">
@@ -22,7 +24,9 @@ const ProjectSidebar = () => {
           className={`flex flex-col gap-2 ease-in-out duration-300 border-r-2 ${
             tools.pen ? "translate-x-0 w-[300px]" : "translate-x-[-200px] w-0"
           }`}
-          onBlur={() => setTools({ pen: false, text: false, shapes: false })}
+          onBlur={() =>
+            setTools({ pen: false, text: false, shapes: false, fonts: false })
+          }
         >
           <Pen />
         </div>
@@ -45,6 +49,15 @@ const ProjectSidebar = () => {
           }`}
         >
           <ShapeHandler />
+        </div>
+      )}
+      {tools.fonts && (
+        <div
+          className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
+            tools.fonts ? "translate-x-0 w-[300px]" : "translate-x-[-200px] w-0"
+          }`}
+        >
+          <FontsHandler />
         </div>
       )}
     </div>
