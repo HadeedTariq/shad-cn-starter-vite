@@ -35,6 +35,8 @@ export const {
   undoRedoText,
   updateTextRecord,
   updateCurrentSelectedTextInChangeText,
+  changeSelectedTextFont,
+  setSelectedTextId,
 } = headingReducer.actions;
 export const {
   createDrawings,

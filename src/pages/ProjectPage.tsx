@@ -9,6 +9,7 @@ import {
   createDrawings,
   increaseDrawingUndoRedoIndex,
   setCurrentDesignType,
+  setSelectedTextId,
 } from "@/reducers/designReducer";
 import CustomHeadingEditor from "@/components/design/CustomHeadingEditor";
 import CustomDrawingEditor from "@/components/design/CustomDrawingEditor";
@@ -32,6 +33,7 @@ const ProjectPage = () => {
     const target = e.currentTarget;
     transformerRef.current.nodes([target]);
     setStyleElem({ id: elemId, type: "heading" });
+    dispatch(setSelectedTextId(elemId));
   };
   const onDblClickHeading = (id: string, value: string) => {
     setSelectedElem({
@@ -140,6 +142,7 @@ const ProjectPage = () => {
               onClick={() => {
                 transformerRef.current.nodes([]);
                 setStyleElem({ id: "", type: "" });
+                dispatch(setSelectedTextId(""));
               }}
             />
             <HeadingHandler

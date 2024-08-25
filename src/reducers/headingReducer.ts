@@ -9,6 +9,7 @@ export type DesignText = {
   fontStyle: string;
   position: string;
   width: number;
+  fontFamily: string;
 };
 export type UndoRedoTextType = {
   id: string;
@@ -25,12 +26,14 @@ export type HeadingState = {
   currentTexts: DesignText[];
   changeTexts: UndoRedoTextType[];
   currentUndoRedoTextIndex: number;
+  selectedTextId: string;
 };
 const headinState: HeadingState = {
   currentDesignType: "text",
   currentTexts: [],
   changeTexts: [],
   currentUndoRedoTextIndex: 0,
+  selectedTextId: "lato",
 };
 export const headingReducer = createSlice({
   name: "headingReducer",
@@ -53,6 +56,22 @@ export const headingReducer = createSlice({
       );
       if (!elem) return;
       elem.value = payload.value;
+      currentTexts[elemIndex] = elem;
+      state.currentTexts = currentTexts;
+    },
+    setSelectedTextId(state, { payload }: { payload: string }) {
+      state.selectedTextId = payload;
+    },
+    changeSelectedTextFont(state, { payload }: { payload: { font: string } }) {
+      const currentTexts = [...state.currentTexts];
+      const elem = currentTexts.find(
+        (text) => text.id === state.selectedTextId
+      );
+      const elemIndex = currentTexts.findIndex(
+        (text) => text.id === state.selectedTextId
+      );
+      if (!elem) return;
+      elem.fontFamily = payload.font;
       currentTexts[elemIndex] = elem;
       state.currentTexts = currentTexts;
     },

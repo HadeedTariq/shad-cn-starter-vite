@@ -22,6 +22,7 @@ const HeadingHandler = ({ onClick, onDblClick }: HeadingHandlerProps) => {
           draggable={currentDesignType === "select"}
           fontSize={text.fontSize}
           fontStyle={text.fontStyle}
+          fontFamily={text.fontFamily}
           fill={text.color}
           align={text.position}
           wrap="word"

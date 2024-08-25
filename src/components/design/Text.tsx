@@ -24,6 +24,7 @@ export default function Text() {
             fontStyle: "bold",
             position: "center",
             width: 200,
+            fontFamily: "lato",
           })
         );
         dispatch(
@@ -44,6 +45,7 @@ export default function Text() {
             fontStyle: "400",
             position: "center",
             width: 170,
+            fontFamily: "lato",
           })
         );
         break;
@@ -58,6 +60,7 @@ export default function Text() {
             fontStyle: "200",
             position: "center",
             width: 150,
+            fontFamily: "lato",
           })
         );
         break;
