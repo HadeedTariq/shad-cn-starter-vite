@@ -30,9 +30,8 @@ const CustomHeadingEditor = (
 
   const dispatch = useDispatch();
   const selectedText = currentTexts.find((text) => text.id === elemId);
-  if (!selectedText || !currentUndoRedoText) return;
 
-  const [color, setColor] = useState(selectedText.color);
+  const [color, setColor] = useState(selectedText?.color);
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColor(e.target.value);
     dispatch(changeSelectedTextColor({ id: elemId, color: e.target.value }));
@@ -89,8 +88,9 @@ const CustomHeadingEditor = (
       <div className="flex items-center gap-2">
         <Button
           disabled={
-            currentUndoRedoText.texts.length < 2 ||
-            currentUndoRedoTextIndex === 0
+            currentUndoRedoText &&
+            (currentUndoRedoText.texts.length < 2 ||
+              currentUndoRedoTextIndex === 0)
           }
           onClick={() => dispatch(undoRedoText({ type: "undo", id: elemId }))}
           className="bg-none disabled:cursor-not-allowed"
@@ -100,8 +100,9 @@ const CustomHeadingEditor = (
         </Button>
         <Button
           disabled={
-            currentUndoRedoText.texts.length < 2 ||
-            currentUndoRedoTextIndex === currentUndoRedoText.texts.length - 1
+            currentUndoRedoText &&
+            (currentUndoRedoText.texts.length < 2 ||
+              currentUndoRedoTextIndex === currentUndoRedoText.texts.length - 1)
           }
           onClick={() => dispatch(undoRedoText({ type: "redo", id: elemId }))}
           className="bg-none disabled:cursor-not-allowed"
