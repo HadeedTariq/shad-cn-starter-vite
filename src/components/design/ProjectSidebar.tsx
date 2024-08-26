@@ -11,6 +11,7 @@ const ProjectSidebar = () => {
     text: false,
     shapes: false,
     fonts: false,
+    design: false,
   });
   return (
     <div className="flex gap-1 w-fit">
@@ -25,7 +26,13 @@ const ProjectSidebar = () => {
             tools.pen ? "translate-x-0 w-[300px]" : "translate-x-[-200px] w-0"
           }`}
           onBlur={() =>
-            setTools({ pen: false, text: false, shapes: false, fonts: false })
+            setTools({
+              pen: false,
+              text: false,
+              shapes: false,
+              fonts: false,
+              design: false,
+            })
           }
         >
           <Pen />
@@ -58,6 +65,17 @@ const ProjectSidebar = () => {
           }`}
         >
           <FontsHandler />
+        </div>
+      )}
+      {tools.design && (
+        <div
+          className={`flex flex-col gap-2 ease-in-out duration-300 transition-transform border-r-2 ${
+            tools.design
+              ? "translate-x-0 w-[300px]"
+              : "translate-x-[-200px] w-0"
+          }`}
+        >
+          <p>Card Handler</p>
         </div>
       )}
     </div>
