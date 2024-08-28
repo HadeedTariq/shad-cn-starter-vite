@@ -15,6 +15,7 @@ export type DrawingState = {
   };
   currentUndoRedoDrawingIndex: number;
   undoDrawingArray: DrawingType[];
+  canvasBackground: string;
 };
 const drawingState: DrawingState = {
   drawings: [],
@@ -24,6 +25,7 @@ const drawingState: DrawingState = {
     width: 2,
   },
   currentUndoRedoDrawingIndex: 0,
+  canvasBackground: "#e3e0e0",
 };
 export const drawingReducer = createSlice({
   name: "drawingReducer",
@@ -31,6 +33,9 @@ export const drawingReducer = createSlice({
   reducers: {
     createDrawings(state, { payload }: { payload: DrawingType[] }) {
       state.drawings = payload;
+    },
+    setCanvasBackground(state, { payload }: { payload: string }) {
+      state.canvasBackground = payload;
     },
     updateDrawingStyle(
       state,

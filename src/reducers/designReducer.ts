@@ -18,6 +18,7 @@ export type DesignState = {
   currentUndoRedoTextIndex: number;
   currentUndoRedoDrawingIndex: number;
   undoDrawingArray: DrawingType[];
+  canvasBackground: string;
 };
 
 const designReducer = combineReducers({
@@ -46,5 +47,6 @@ export const {
   deleteSelectedDrawing,
   undoRedoDrawing,
   increaseDrawingUndoRedoIndex,
+  setCanvasBackground,
 } = drawingReducer.actions;
 export default designReducer;

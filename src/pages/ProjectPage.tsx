@@ -1,5 +1,12 @@
 import { useRef, useState } from "react";
-import { Layer, Line, Rect, Stage, Transformer } from "react-konva";
+import {
+  // Image as KonvaImage,
+  Layer,
+  Line,
+  Rect,
+  Stage,
+  Transformer,
+} from "react-konva";
 import HeadingEditor from "./components/HeadingEditor";
 import HeadingHandler from "./components/HeadingHandler";
 import { useDesign } from "@/hooks/useDesign";
@@ -20,7 +27,8 @@ const ProjectPage = () => {
     id: "",
     type: "",
   });
-  const { drawings, currentDesignType, drawindStyle } = useDesign();
+  const { drawings, currentDesignType, drawindStyle, canvasBackground } =
+    useDesign();
   const [selectedElem, setSelectedElem] = useState({
     elemId: "",
     elemValue: "",
@@ -29,6 +37,7 @@ const ProjectPage = () => {
   const transformerRef = useRef<any>(null);
   const currentShapeRef = useRef<any>(null);
   const isPainting = useRef<any>(null);
+  // const [image, setImage] = useState<HTMLImageElement>();
   const onClickHeading = (e: any, elemId: string) => {
     const target = e.currentTarget;
     transformerRef.current.nodes([target]);
@@ -118,9 +127,9 @@ const ProjectPage = () => {
               ref={transformerRef}
             />
           )))}
-      <div className="flex items-center justify-center w-full h-[93vh] bg-gray-200">
+      <div className="flex items-center justify-center w-full h-[93vh] ">
         <Stage
-          height={window.innerHeight - 100}
+          height={window.innerHeight - 80}
           width={window.innerWidth - 840}
           className={`w-[40%] bg-white h-[90%] ${
             (currentDesignType === "drawing" && "cursor-crosshair") ||
@@ -137,14 +146,23 @@ const ProjectPage = () => {
               y={0}
               height={window.innerHeight}
               width={window.innerWidth}
-              fill="#ffffff"
-              id="bg"
+              fill={canvasBackground}
               onClick={() => {
                 transformerRef.current.nodes([]);
                 setStyleElem({ id: "", type: "" });
                 dispatch(setSelectedTextId(""));
               }}
             />
+            {/* {image && (
+              <KonvaImage
+                x={0}
+                y={0}
+                width={window.innerWidth}
+                height={window.innerHeight}
+                image={image as any}
+              />
+            )} */}
+
             <HeadingHandler
               onClick={(e: any, elemId: string) => onClickHeading(e, elemId)}
               onDblClick={(id: string, value: string) =>

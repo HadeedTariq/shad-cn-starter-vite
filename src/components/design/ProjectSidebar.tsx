@@ -4,6 +4,7 @@ import Pen from "./Pen";
 import Text from "./Text";
 import ShapeHandler from "./ShapeHandler";
 import FontsHandler from "./FontsHandler";
+import CardHandler from "./CardHandler";
 
 const ProjectSidebar = () => {
   const [tools, setTools] = useState({
@@ -15,7 +16,7 @@ const ProjectSidebar = () => {
   });
   return (
     <div className="flex gap-1 w-fit">
-      <div className="relative transition-all duration-[450ms] ease-in-out w-16 h-[92.5vh]">
+      <div className="relative transition-all duration-[450ms] ease-in-out w-16 h-[93.5vh]">
         <article className="border border-solid border-gray-700 w-full ease-in-out duration-500 h-full left-0 rounded-[3px] inline-block shadow-lg shadow-black/15 bg-white ">
           <DrawingSheet open={tools} setOpen={setTools} />
         </article>
@@ -75,7 +76,7 @@ const ProjectSidebar = () => {
               : "translate-x-[-200px] w-0"
           }`}
         >
-          <p>Card Handler</p>
+          <CardHandler />
         </div>
       )}
     </div>
